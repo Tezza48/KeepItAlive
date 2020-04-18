@@ -15,8 +15,16 @@ public enum Element
     Nitrogen = 6,
     Carbon = 7,
     Oxygen = 8,
-    Flourine = 9,
-    Neon = 10,
+
+    Magnesium = 12,
+    Aluminium = 13,
+    Silicon = 14,
+    Sulfur = 16,
+
+
+    Chromium = 24,
+    Iron = 26,
+    Cobalt = 27,
 }
 
 public class ElementInventory : SortedDictionary<Element, int>
@@ -52,11 +60,19 @@ public static class Elements
 
         activations[Element.Hydrogen] = 100;
         activations[Element.Helium] = 200;
-        activations[Element.Lithium] = 300;
-        activations[Element.Beryllium] = 350;
+        activations[Element.Lithium] = 4000;
+        activations[Element.Beryllium] = 5000;
 
-        activations[Element.Nitrogen] = 1000;
-        activations[Element.Carbon] = 1200;
-        activations[Element.Oxygen] = 3000;
+        activations[Element.Nitrogen] = 10000;
+        activations[Element.Carbon] = 45000;
+        activations[Element.Oxygen] = 50000;
+
+        activations[Element.Magnesium] = 100000;
+        activations[Element.Aluminium] = 150000;
+        activations[Element.Silicon] = 200000;
+        activations[Element.Sulfur] = 250000;
+        activations[Element.Chromium] = 300000;
+        activations[Element.Iron] = 500000;
+        activations[Element.Cobalt] = 700000;
     }
 }
