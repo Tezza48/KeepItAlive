@@ -60,7 +60,7 @@ public class Star : MonoBehaviour
                 {
                     var product = (Element)selfFusionProduct;
 
-                    var numToFuse = Mathf.RoundToInt(count * fusionChance);
+                    var numToFuse = Mathf.CeilToInt(count * fusionChance);
 
                     if (!deltas.ContainsKey(element)) deltas[element] = 0;
                     if (!deltas.ContainsKey(product)) deltas[product] = 0;
@@ -71,14 +71,14 @@ public class Star : MonoBehaviour
                     numReactions += numToFuse;
                 }
 
-                var hChance = 0.5f;
+                var hChance = 0.3f;
 
                 var hFusionProduct = (int)element + 1;
                 if (Enum.IsDefined(typeof(Element), hFusionProduct) && UnityEngine.Random.value < (fusionChance * hChance) / Time.fixedDeltaTime)
                 {
                     var product = (Element)hFusionProduct;
 
-                    var numToFuse = Mathf.CeilToInt(count * fusionChance * hChance);
+                    var numToFuse = Mathf.CeilToInt(count * fusionChance);
 
                     if (!deltas.ContainsKey(element)) deltas[element] = 0;
                     if (!deltas.ContainsKey(product)) deltas[product] = 0;
@@ -96,7 +96,7 @@ public class Star : MonoBehaviour
 
         reactionsLive += numReactions;
 
-        var scale = 1.0f + ((numReactions * 100.0f) / (mass / 100.0f));
+        var scale = mass / 1000.0f + ((numReactions * 50.0f) / (mass / 100.0f));
         transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(scale, scale, scale), Time.fixedDeltaTime);
     }
 

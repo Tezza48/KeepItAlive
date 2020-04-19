@@ -29,6 +29,10 @@ public class SystemScene : MonoBehaviour
         {
             playerInvGui.isShowing = true;
         }
+
+        camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, star.transform.localScale.x * 3, Time.deltaTime);
+
+        camera.transform.position = new Vector3(0, 0, -star.transform.localScale.x);
     }
 
     private void OnGUI()

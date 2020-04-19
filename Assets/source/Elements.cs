@@ -53,15 +53,16 @@ public struct ElementMakeup
 public static class Elements
 {
     public static Dictionary<Element, int> activations;
+    public static Element[] amunitions;
 
     public static void Init()
     {
         activations = new Dictionary<Element, int>();
 
-        activations[Element.Hydrogen] = 100;
+        activations[Element.Hydrogen] = 200;
         activations[Element.Helium] = 200;
         activations[Element.Lithium] = 4000;
-        activations[Element.Beryllium] = 5000;
+        activations[Element.Beryllium] = 2500;
 
         activations[Element.Nitrogen] = 10000;
         activations[Element.Carbon] = 45000;
@@ -74,5 +75,13 @@ public static class Elements
         activations[Element.Chromium] = 300000;
         activations[Element.Iron] = 500000;
         activations[Element.Cobalt] = 700000;
+
+        amunitions = new Element[]
+        {
+            Element.Lithium,
+            Element.Nitrogen,
+            Element.Aluminium,
+            Element.Cobalt,
+        };
     }
 }
