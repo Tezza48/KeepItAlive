@@ -9,4 +9,4 @@ The only working component is the Star, the other half would have been explorati
 
 Please do take a look at the source and fork it, feel free to use it in your games. (invitation extends to the last commit made when the compo ends) (Covering my ass i guess).
 
-![Game Screenshot](screenshots/2020-04-19%2022_28_32-Window.png)
+![Game Screenshot](/screenshots/2020-04-19%2022_28_32-Window.png)
