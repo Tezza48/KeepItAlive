@@ -10,9 +10,10 @@ public class Star : MonoBehaviour
 
     float tTime = 0.0f;
 
-    int avgReactions;
+    //int avgReactions;
     float lastReactionCheck;
-    List<int> reactions;
+    int reactionsPerSecond;
+    int reactionsLive;
 
     // Start is called before the first frame update
     void Start()
@@ -21,21 +22,15 @@ public class Star : MonoBehaviour
 
         composition = new ElementInventory(initialConditions);
 
-        reactions = new List<int>();
+        //reactions = new List<int>();
     }
 
     private void Update()
     {
-        if (Time.time > lastReactionCheck + 1.0)
+        if (Time.time > lastReactionCheck + 2.0)
         {
-            var total = 0;
-            foreach (var value in reactions)
-            {
-                total += value;
-            }
-
-            avgReactions = total / reactions.Count;
-            reactions.Clear();
+            reactionsPerSecond = reactionsLive;
+            reactionsLive = 0;
 
             lastReactionCheck = Time.time;
         }
@@ -44,20 +39,12 @@ public class Star : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        var mass = GetTotalMass();
-        var scale = mass / 100.0f;
-        transform.localScale = new Vector3(scale, scale, scale);
-
         var numReactions = 0;
-
-        // Every second
-        //if (tTime > Time.time)
-        //{
-        //    return;
-        //}
-
+        
         tTime = Time.time + 1.0f;
-        float fusionChance = 0.005f;
+        float fusionChance = 0.001f;
+
+        var mass = GetTotalMass();
 
         var deltas = new ElementInventory();
 
@@ -107,18 +94,24 @@ public class Star : MonoBehaviour
 
         AddElements(deltas);
 
-        reactions.Add(numReactions);
+        reactionsLive += numReactions;
+
+        var scale = 1.0f + ((numReactions * 100.0f) / (mass / 100.0f));
+        transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(scale, scale, scale), Time.fixedDeltaTime);
     }
 
     public void AddElements(ElementInventory inventory)
     {
         foreach (var elem in inventory)
         {
-            var name = elem.Key;
-
-            if (!composition.ContainsKey(name)) composition[name] = 0;
-            composition[name] = Math.Max(composition[name] + elem.Value, 0);
+            AddElement(elem.Key, elem.Value);
         }
+    }
+
+    public void AddElement(Element name, int count)
+    {
+        if (!composition.ContainsKey(name)) composition[name] = 0;
+        composition[name] = Math.Max(composition[name] + count, 0);
     }
 
     public int GetTotalMass()
@@ -145,7 +138,7 @@ public class Star : MonoBehaviour
         guiSettings.scrollPos = GUILayout.BeginScrollView(guiSettings.scrollPos);
         GUILayout.Label("Total mass: " + GetTotalMass());
 
-        GUILayout.Label("Reactions: " + avgReactions);
+        GUILayout.Label("Reactions: " + reactionsPerSecond);
 
         GUILayout.Label("Composition");
         GUILayout.BeginVertical();
@@ -162,7 +155,7 @@ public class Star : MonoBehaviour
 
     private void OnGUI()
     {
-        Rect r = new Rect(0, 0, 200, 400);
+        Rect r = new Rect(0, 0, 200, Screen.height);
         GUILayout.Window(1, r, GUIWindowFunc, "Star Info");
     }
     #endregion
