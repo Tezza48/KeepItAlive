@@ -16,6 +16,16 @@ public class Player : SpaceshipActor
         inventory = new ElementInventory(initialInventory);
     }
 
+    protected override void Update()
+    {
+        base.Update();
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Shoot();
+        }
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {

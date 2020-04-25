@@ -7,6 +7,7 @@ public class SpaceshipActor : MonoBehaviour
 {
     public Rigidbody2D rigid;
     public Light engineLight;
+    public GameObject shootyThing;
 
     // Start is called before the first frame update
     void Awake()
@@ -15,7 +16,7 @@ public class SpaceshipActor : MonoBehaviour
     }
 
     // Update is called once per frame
-    public virtual void Update()
+    protected virtual void Update()
     {
         engineLight.intensity = Mathf.Min(1, rigid.velocity.magnitude / 10.0f);
     }
@@ -32,6 +33,19 @@ public class SpaceshipActor : MonoBehaviour
 
     public void Shoot()
     {
+        if (shootyThing.activeSelf)
+        {
+            return;
+        }
 
+        shootyThing.SetActive(true);
+        StartCoroutine(ShootTimeout(1.0f));
+    }
+
+    private IEnumerator ShootTimeout(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        shootyThing.SetActive(false);
     }
 }
