@@ -15,7 +15,7 @@ public class SpaceshipActor : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
         engineLight.intensity = Mathf.Min(1, rigid.velocity.magnitude / 10.0f);
     }
@@ -28,5 +28,10 @@ public class SpaceshipActor : MonoBehaviour
     public void FixedUpdateThrust(float amount)
     {
         rigid.AddForce(transform.up * amount * Time.fixedDeltaTime * 1000.0f);
+    }
+
+    public void Shoot()
+    {
+
     }
 }
