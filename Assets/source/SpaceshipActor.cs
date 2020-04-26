@@ -8,11 +8,13 @@ public class SpaceshipActor : MonoBehaviour
     public Rigidbody2D rigid;
     public Light engineLight;
     public GameObject shootyThing;
+    private float hitpoints;
 
     // Start is called before the first frame update
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        hitpoints = 5.0f;
     }
 
     // Update is called once per frame
@@ -47,5 +49,10 @@ public class SpaceshipActor : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         shootyThing.SetActive(false);
+    }
+
+    public void Damage(float damage)
+    {
+        hitpoints = Mathf.Max(hitpoints - damage, 0);
     }
 }
