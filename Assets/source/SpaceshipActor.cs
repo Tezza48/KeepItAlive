@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,19 +9,53 @@ public class SpaceshipActor : MonoBehaviour
     public Rigidbody2D rigid;
     public Light engineLight;
     public GameObject shootyThing;
-    private float hitpoints;
+    public float hitpoints;
+
+    public ElementMakeup[] initialInventory;
+    public ElementInventory inventory;
+
+    public Loot lootPrefab;
+    
+    [Serializable]
+    public struct GuiSettings
+    {
+        public bool isShowing;
+        public Rect windowRect;
+    }
+
+    public GuiSettings guiSettings = new GuiSettings
+    {
+        isShowing = false
+    };
 
     // Start is called before the first frame update
     void Awake()
     {
+        inventory = new ElementInventory(initialInventory);
+
         rigid = GetComponent<Rigidbody2D>();
-        hitpoints = 5.0f;
+        hitpoints = (hitpoints > 0.0f) ? hitpoints : 5.0f;
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
         engineLight.intensity = Mathf.Min(1, rigid.velocity.magnitude / 10.0f);
+
+        if (shootyThing.activeSelf)
+        {
+            var collider = shootyThing.GetComponent<BoxCollider2D>();
+            var overlaps = new List<Collider2D>();
+            Physics2D.OverlapCollider(collider, new ContactFilter2D(), overlaps);
+            foreach (var coll in overlaps)
+            {
+                var ship = coll.GetComponent<SpaceshipActor>();
+                if (ship != null)
+                {
+                    ship.Damage(Time.deltaTime);
+                }
+            }
+        }
     }
 
     public void FixedUpdateRotation(float amount)
@@ -54,5 +89,42 @@ public class SpaceshipActor : MonoBehaviour
     public void Damage(float damage)
     {
         hitpoints = Mathf.Max(hitpoints - damage, 0);
+
+        if (hitpoints == 0)
+        {
+            Explode();
+        }
+    }
+
+    private void Explode()
+    {
+        var loot = Instantiate(lootPrefab, transform.position, transform.rotation);
+        loot.inventory = inventory;
+
+        Destroy(gameObject);
+    }
+
+    private void OnGUI()
+    {
+        if (guiSettings.isShowing)
+        {
+            guiSettings.windowRect.x = Screen.width - guiSettings.windowRect.width;
+            guiSettings.windowRect = GUILayout.Window(0, guiSettings.windowRect, WindowFunction, "Inventory");
+        }
+    }
+
+    public void WindowFunction(int windowId)
+    {
+        GUILayout.BeginVertical();
+
+        foreach (var elem in inventory)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label(elem.Key.ToString() + " " + ((int)elem.Key).ToString());
+            GUILayout.Label(elem.Value.ToString());
+            GUILayout.EndHorizontal();
+        }
+
+        GUILayout.EndVertical();
     }
 }

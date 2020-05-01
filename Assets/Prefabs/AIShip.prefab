@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7808486603214165341}
+  - component: {fileID: 7909532353801987559}
   - component: {fileID: 7808486603214165339}
   - component: {fileID: 7808486603214165336}
-  - component: {fileID: 7909532353801987559}
   m_Layer: 0
   m_Name: AIShip
   m_TagString: Untagged
@@ -35,6 +35,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7909532353801987559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7808486603214165340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0252ea3b13939d3409cdd5a6fb92f9d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigid: {fileID: 7808486603214165339}
+  engineLight: {fileID: 5882504703242083562}
+  shootyThing: {fileID: 5085983125488006524}
+  hitpoints: 0
+  initialInventory: []
+  lootPrefab: {fileID: 0}
+  guiSettings:
+    isShowing: 0
+    windowRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  target: {fileID: 0}
 --- !u!50 &7808486603214165339
 Rigidbody2D:
   serializedVersion: 4
@@ -82,22 +109,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.63, y: 2.3}
   m_EdgeRadius: 0
---- !u!114 &7909532353801987559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7808486603214165340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0252ea3b13939d3409cdd5a6fb92f9d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rigid: {fileID: 7808486603214165339}
-  engineLight: {fileID: 5882504703242083562}
-  shootyThing: {fileID: 5085983125488006524}
-  target: {fileID: 0}
 --- !u!1001 &7915797119390874825
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -186,6 +197,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7808486603214165341}
     m_Modifications:
+    - target: {fileID: 1960399365538324305, guid: 0da62e59e3b4fe74783b6e05ede7a209,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ef890af44a8e30549814cf8e6679f146, type: 2}
     - target: {fileID: 1960399365538324308, guid: 0da62e59e3b4fe74783b6e05ede7a209,
         type: 3}
       propertyPath: m_Name
@@ -246,11 +262,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1960399365538324305, guid: 0da62e59e3b4fe74783b6e05ede7a209,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: ef890af44a8e30549814cf8e6679f146, type: 2}
     - target: {fileID: 1960399365701122299, guid: 0da62e59e3b4fe74783b6e05ede7a209,
         type: 3}
       propertyPath: m_Parameters.colorGradient.key1.r

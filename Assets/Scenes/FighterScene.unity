@@ -96,6 +96,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -152,11 +153,32 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5479129011764364957, guid: 5b872ffb493484b44870c52413c5e3ad,
+    - target: {fileID: 1084801953134636537, guid: 5b872ffb493484b44870c52413c5e3ad,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5479129010381882331, guid: 5b872ffb493484b44870c52413c5e3ad,
         type: 3}
       propertyPath: m_Name
-      value: PlayerShip
+      value: TrailRight
       objectReference: {fileID: 0}
+    - target: {fileID: 5479129010700464554, guid: 5b872ffb493484b44870c52413c5e3ad,
+        type: 3}
+      propertyPath: m_Name
+      value: TrailLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 5479129011764364955, guid: 5b872ffb493484b44870c52413c5e3ad,
+        type: 3}
+      propertyPath: hitpoints
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5479129011764364955, guid: 5b872ffb493484b44870c52413c5e3ad,
+        type: 3}
+      propertyPath: lootPrefab
+      value: 
+      objectReference: {fileID: 4049643007779969729, guid: 998ec8e6c3bd01e479c10cb021dcc07e,
+        type: 3}
     - target: {fileID: 5479129011764364956, guid: 5b872ffb493484b44870c52413c5e3ad,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -212,20 +234,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5479129011764364957, guid: 5b872ffb493484b44870c52413c5e3ad,
+        type: 3}
+      propertyPath: m_Name
+      value: PlayerShip
+      objectReference: {fileID: 0}
+    - target: {fileID: 6784638893517994485, guid: 5b872ffb493484b44870c52413c5e3ad,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8632137326636247698, guid: 5b872ffb493484b44870c52413c5e3ad,
         type: 3}
       propertyPath: m_Name
       value: EngineLight
-      objectReference: {fileID: 0}
-    - target: {fileID: 5479129010381882331, guid: 5b872ffb493484b44870c52413c5e3ad,
-        type: 3}
-      propertyPath: m_Name
-      value: TrailRight
-      objectReference: {fileID: 0}
-    - target: {fileID: 5479129010700464554, guid: 5b872ffb493484b44870c52413c5e3ad,
-        type: 3}
-      propertyPath: m_Name
-      value: TrailLeft
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b872ffb493484b44870c52413c5e3ad, type: 3}
@@ -462,8 +484,9 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 605770634}
   m_Enabled: 1
-  serializedVersion: 9
+  serializedVersion: 10
   m_Type: 1
+  m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 0.5
   m_Range: 10
@@ -576,6 +599,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -649,6 +673,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5085983125488006524, guid: c0f055d616fe0e241b2924244a5a5d5d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7808486603214165340, guid: c0f055d616fe0e241b2924244a5a5d5d,
         type: 3}
       propertyPath: m_Name
@@ -711,8 +740,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7909532353801987559, guid: c0f055d616fe0e241b2924244a5a5d5d,
         type: 3}
+      propertyPath: initialInventory.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7909532353801987559, guid: c0f055d616fe0e241b2924244a5a5d5d,
+        type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 1643185042}
+    - target: {fileID: 7909532353801987559, guid: c0f055d616fe0e241b2924244a5a5d5d,
+        type: 3}
+      propertyPath: lootPrefab
+      value: 
+      objectReference: {fileID: 4049643007779969729, guid: 998ec8e6c3bd01e479c10cb021dcc07e,
+        type: 3}
+    - target: {fileID: 7909532353801987559, guid: c0f055d616fe0e241b2924244a5a5d5d,
+        type: 3}
+      propertyPath: initialInventory.Array.data[0].element
+      value: 27
+      objectReference: {fileID: 0}
+    - target: {fileID: 7909532353801987559, guid: c0f055d616fe0e241b2924244a5a5d5d,
+        type: 3}
+      propertyPath: initialInventory.Array.data[0].amount
+      value: 40
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0f055d616fe0e241b2924244a5a5d5d, type: 3}

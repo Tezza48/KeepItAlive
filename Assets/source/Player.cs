@@ -5,16 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : SpaceshipActor
 {
-    public ElementMakeup[] initialInventory;
-    public ElementInventory inventory;
-
     public Star star;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        inventory = new ElementInventory(initialInventory);
-    }
 
     protected override void Update()
     {
@@ -31,5 +22,20 @@ public class Player : SpaceshipActor
     {
         FixedUpdateRotation(Input.GetAxis("Horizontal"));
         FixedUpdateThrust(Input.GetAxis("Vertical"));
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        var loot = collision.GetComponent<Loot>();
+        if (loot != null)
+        {
+            var inv = loot.Consume();
+            foreach(var elem in inv)
+            {
+                if (!inventory.ContainsKey(elem.Key)) inventory[elem.Key] = 0;
+
+                inventory[elem.Key] =+ elem.Value;
+            }
+        }
     }
 }
