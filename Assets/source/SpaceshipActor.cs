@@ -4,18 +4,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class SpaceshipActor : MonoBehaviour
+public abstract class SpaceshipActor : MonoBehaviour
 {
     public Rigidbody2D rigid;
     public Light engineLight;
     public GameObject shootyThing;
     public float hitpoints;
+    public float maxHitpoints = 5.0f;
 
-    public ElementMakeup[] initialInventory;
-    public ElementInventory inventory;
+    //public ElementMakeup[] initialInventory;
+    //public ElementInventory inventory;
 
     public Loot lootPrefab;
-    
+
+    public delegate void HealthUpdateEvent(float current, float max);
+    public event HealthUpdateEvent onHealthUpdated;
+
     [Serializable]
     public struct GuiSettings
     {
@@ -28,13 +32,16 @@ public class SpaceshipActor : MonoBehaviour
         isShowing = false
     };
 
+    public abstract ElementInventory GetInventory();
+    protected abstract void SetInventory(ElementInventory inventory);
+
     // Start is called before the first frame update
     void Awake()
     {
-        inventory = new ElementInventory(initialInventory);
-
         rigid = GetComponent<Rigidbody2D>();
-        hitpoints = (hitpoints > 0.0f) ? hitpoints : 5.0f;
+        hitpoints = (hitpoints > 0.0f) ? hitpoints : maxHitpoints;
+
+        onHealthUpdated?.Invoke(hitpoints, maxHitpoints);
     }
 
     // Update is called once per frame
@@ -58,6 +65,7 @@ public class SpaceshipActor : MonoBehaviour
         }
     }
 
+    // TODO WT: Flying is not fun when in combat, Mechanics should change to make combat fun.
     public void FixedUpdateRotation(float amount)
     {
         rigid.rotation -= amount * Time.deltaTime * 300.0f;
@@ -90,6 +98,8 @@ public class SpaceshipActor : MonoBehaviour
     {
         hitpoints = Mathf.Max(hitpoints - damage, 0);
 
+        onHealthUpdated?.Invoke(hitpoints, maxHitpoints);
+
         if (hitpoints == 0)
         {
             Explode();
@@ -99,7 +109,7 @@ public class SpaceshipActor : MonoBehaviour
     private void Explode()
     {
         var loot = Instantiate(lootPrefab, transform.position, transform.rotation);
-        loot.inventory = inventory;
+        loot.inventory = GetInventory();
 
         Destroy(gameObject);
     }
@@ -117,7 +127,7 @@ public class SpaceshipActor : MonoBehaviour
     {
         GUILayout.BeginVertical();
 
-        foreach (var elem in inventory)
+        foreach (var elem in GetInventory())
         {
             GUILayout.BeginHorizontal();
             GUILayout.Label(elem.Key.ToString() + " " + ((int)elem.Key).ToString());

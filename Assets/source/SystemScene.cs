@@ -50,7 +50,7 @@ public class SystemScene : MonoBehaviour
 
         ElementInventory deltas = new ElementInventory();
 
-        foreach (var elem in player.inventory)
+        foreach (var elem in player.GetInventory())
         {
             GUILayout.BeginHorizontal();
             GUILayout.Label(elem.Key.ToString() + " " + ((int)elem.Key).ToString());
@@ -65,7 +65,7 @@ public class SystemScene : MonoBehaviour
 
         foreach(var delta in deltas)
         {
-            player.inventory[delta.Key] = 0;
+            player.GetInventory()[delta.Key] = 0;
 
             star.AddElement(delta.Key, delta.Value);
         }

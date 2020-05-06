@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AIShip : SpaceshipActor
 {
-    public Transform target;
+    public SpaceshipActor target;
 
     const float AGGRO_DISTANCE = 30.0f;
 
@@ -15,21 +15,49 @@ public class AIShip : SpaceshipActor
 
     public StateFn currentState;
 
+    public ElementMakeup[] initialInventory;
+    private ElementInventory inventory;
+
+    public override ElementInventory GetInventory()
+    {
+        return inventory;
+    }
+
+    protected override void SetInventory(ElementInventory inventory)
+    {
+        this.inventory = inventory;
+    }
+
     private void Start()
     {
+        SetInventory(new ElementInventory(initialInventory));
+
         currentState = IdleState;
+
+        target.onHealthUpdated += (current, max) =>
+        {
+            if (current <= 0)
+            {
+                target = null;
+            }
+        };
     }
 
     public void FixedUpdate()
     {
         base.Update();
 
-        currentState = currentState();
+        if (target != null)
+        {
+            currentState = currentState();
+        }
     }
 
     private StateFn IdleState()
     {
-        if (Vector2.Distance(transform.position, target.position) < AGGRO_DISTANCE)
+        if (target == null) return IdleState;
+
+        if (Vector2.Distance(transform.position, target.transform.position) < AGGRO_DISTANCE)
         {
             return PersuitState;
         }
@@ -40,7 +68,9 @@ public class AIShip : SpaceshipActor
 
     private StateFn PersuitState()
     {
-        var distance = Vector2.Distance(transform.position, target.position);
+        if (target == null) return IdleState;
+
+        var distance = Vector2.Distance(transform.position, target.transform.position);
 
         if (distance > AGGRO_DISTANCE)
         {
@@ -66,7 +96,9 @@ public class AIShip : SpaceshipActor
 
     private StateFn AttackState()
     {
-        var distance = Vector2.Distance(transform.position, target.position);
+        if (target == null) return IdleState;
+
+        var distance = Vector2.Distance(transform.position, target.transform.position);
         if (distance > ATTACK_DISTANCE + 2.0f)
         {
             return PersuitState;
@@ -86,7 +118,7 @@ public class AIShip : SpaceshipActor
     {
         var currentAngle = Mathf.Atan2(transform.up.y, transform.up.x);
 
-        var toTarget = (target.position - transform.position).normalized;
+        var toTarget = (target.transform.position - transform.position).normalized;
         var angleToTarget = currentAngle - Mathf.Atan2(toTarget.y, toTarget.x);
 
         // TODO WT: Fix 360 spin when left of the AI.
@@ -96,10 +128,13 @@ public class AIShip : SpaceshipActor
 
     private void OnGUI()
     {
-        var (currentAngle, _, angleToTarget) = GetAngleToTarget();
+        if (target != null)
+        {
+            var (currentAngle, _, angleToTarget) = GetAngleToTarget();
 
-        GUILayout.Label("currentAngle: " + currentAngle.ToString("N2"));
-        GUILayout.Label("angleToTarget: " + angleToTarget.ToString("N2"));
+            GUILayout.Label("currentAngle: " + currentAngle.ToString("N2"));
+            GUILayout.Label("angleToTarget: " + angleToTarget.ToString("N2"));
+        }
 
         GUILayout.Label("Current State: " + currentState.Method.Name);
     }

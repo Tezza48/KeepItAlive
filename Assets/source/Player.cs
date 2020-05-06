@@ -6,6 +6,16 @@ using UnityEngine;
 public class Player : SpaceshipActor
 {
     public Star star;
+    
+    public override ElementInventory GetInventory()
+    {
+        return GameModel.PlayerInventory;
+    }
+
+    protected override void SetInventory(ElementInventory inventory)
+    {
+        GameModel.PlayerInventory = inventory;
+    }
 
     protected override void Update()
     {
@@ -32,9 +42,9 @@ public class Player : SpaceshipActor
             var inv = loot.Consume();
             foreach(var elem in inv)
             {
-                if (!inventory.ContainsKey(elem.Key)) inventory[elem.Key] = 0;
+                if (!GetInventory().ContainsKey(elem.Key)) GetInventory()[elem.Key] = 0;
 
-                inventory[elem.Key] =+ elem.Value;
+                GetInventory()[elem.Key] =+ elem.Value;
             }
         }
     }
